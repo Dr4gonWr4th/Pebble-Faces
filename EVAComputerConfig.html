@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <title>EVA Comuter Watchface</title>
+  <title>EVA Computer Config</title>
   <link rel='stylesheet' type='text/css' href='css/slate.min.css'>
-  <script src='js/EVA.min.js'></script>
+  <script src='js/slate.min.js'></script>
   <style>
   .title {
     padding: 15px 10px;
@@ -18,12 +18,12 @@
   </head>
 
   <body>
-    <h1 class='title'>Watchface Configuration</h1>
+    <h1 class='title'>EVA Computer Config</h1>
 
     <div class='item-container'>
       <div class='item-container-content'>
         <div class='item'>
-          Configure the Watchface
+          Configuration page for the EVA Computer Watchface
         </div>
       </div>
     </div>
@@ -37,16 +37,16 @@
         </label>
       </div>
       <div class='item-container-footer'>
-        Choose the watch's Main text color.
+        Choose the accent color. Orange by default.
       </div>
     </div>
 
     <div class='item-container'>
-      <div class='item-container-header'>SETTINGS</div>
+      <div class='item-container-header'>OPTIONS</div>
       <div class='item-container-content'>
         <label class='item'>
           Celsius Scale?
-          <input id='celsius_checkbox' type='checkbox' class='item-toggle'>
+          <input id='celsius_scale_checkbox' type='checkbox' class='item-toggle'>
         </label>
       </div>
       <div class='item-container-content'>
@@ -61,9 +61,6 @@
           <input id='cover_checkbox' type='checkbox' class='item-toggle'>
         </label>
       </div>
-      <div class='item-container-footer'>
-        Covers the watchface with a screen for easy reading of time and cool science aesthetics. Shake to dismiss.
-      </div>
     </div>
 
     <div class='item-container'>
@@ -73,18 +70,23 @@
     </div>
   </body>
   <script>
-  function getConfigData() { // finish below
-    var backgroundColorPicker = document.getElementById('main_color_picker');
-    var celsius_checkbox = document.getElementById('high_contrast_checkbox');
+  function getConfigData() {
+    var mainColorPicker = document.getElementById('main_color_picker');
+    var celsiusCheckbox = document.getElementById('celsius_scale_checkbox');
+    var 24HourCheckbox = document.getElementById('24_hour_checkbox');
+    var coverCheckbox = document.getElementById('cover_checkbox');
  
     var options = {
-      'main_color_picker': backgroundColorPicker.value,
-      'celsius_checkbox': highContrastCheckbox.checked
-       '24_hour_checkbox': highContrastCheckbox.checked
+      'main_color': mainColorPicker.value,
+      'celsius_scale': celsiusCheckbox.checked,
+      '24_hour': 24HourCheckbox.checked,
+      'cover': coverCheckbox.checked
     };
     // Save for next launch
-    localStorage['background_color'] = options['background_color'];
-    localStorage['high_contrast'] = options['high_contrast'];
+    localStorage['main_color'] = options['main_color'];
+    localStorage['celsius_scale'] = options['celsius_scale'];
+    localStorage['24_hour'] = options['24_hour'];
+    localStorage['cover'] = options['cover'];
     console.log('Got options: ' + JSON.stringify(options));
     return options;
   }
@@ -108,12 +110,16 @@
     document.location = return_to + encodeURIComponent(JSON.stringify(getConfigData()));
   });
   (function() {
-    var backgroundColorPicker = document.getElementById('background_color_picker');
-    var highContrastCheckbox = document.getElementById('high_contrast_checkbox');
+    var mainColorPicker = document.getElementById('main_color_picker');
+    var celsiusCheckbox = document.getElementById('celsius_scale_checkbox');
+    var 24HourCheckbox = document.getElementById('24_hour_checkbox');
+    var coverCheckbox = document.getElementById('cover_checkbox');
     // Load any previously saved configuration, if available
-    if(localStorage['high_contrast']) {
-      highContrastCheckbox.checked = JSON.parse(localStorage['high_contrast']);
-      backgroundColorPicker.value = localStorage['background_color'];
+    if(localStorage['celsius_scale']) {
+      celsiusCheckbox.checked = JSON.parse(localStorage['celsius_scale']);
+      24HourCheckbox.checked = JSON.parse(localStorage['24_hour']);
+      coverCheckbox.checked = JSON.parse(localStorage['cover']);
+      mainColorPicker.value = localStorage['main_color'];
     }
   })();
   </script>
