@@ -73,13 +73,13 @@
   function getConfigData() {
     var mainColorPicker = document.getElementById('main_color_picker');
     var celsiusCheckbox = document.getElementById('celsius_scale_checkbox');
-    var 24HourCheckbox = document.getElementById('24_hour_checkbox');
+    var HourCheckbox = document.getElementById('24_hour_checkbox');
     var coverCheckbox = document.getElementById('cover_checkbox');
  
     var options = {
       'main_color': mainColorPicker.value,
       'celsius_scale': celsiusCheckbox.checked,
-      '24_hour': 24HourCheckbox.checked,
+      '24_hour': HourCheckbox.checked,
       'cover': coverCheckbox.checked
     };
     // Save for next launch
@@ -112,12 +112,12 @@
   (function() {
     var mainColorPicker = document.getElementById('main_color_picker');
     var celsiusCheckbox = document.getElementById('celsius_scale_checkbox');
-    var 24HourCheckbox = document.getElementById('24_hour_checkbox');
+    var HourCheckbox = document.getElementById('24_hour_checkbox');
     var coverCheckbox = document.getElementById('cover_checkbox');
     // Load any previously saved configuration, if available
     if(localStorage['celsius_scale']) {
       celsiusCheckbox.checked = JSON.parse(localStorage['celsius_scale']);
-      24HourCheckbox.checked = JSON.parse(localStorage['24_hour']);
+      HourCheckbox.checked = JSON.parse(localStorage['24_hour']);
       coverCheckbox.checked = JSON.parse(localStorage['cover']);
       mainColorPicker.value = localStorage['main_color'];
     }
