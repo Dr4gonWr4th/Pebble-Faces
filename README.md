@@ -1,1 +1,3 @@
 # Pebble-Faces
+
+Just following the tutorial...
