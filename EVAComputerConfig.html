@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>EVA Computer Config</title>
+  <link rel='stylesheet' type='text/css' href='css/slate.min.css'>
+  <script src='js/slate.min.js'></script>
+  <style>
+  .title {
+    padding: 15px 10px;
+    text-transform: uppercase;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #888888;
+    text-align: center;
+  }
+  </style>
+  </head>
+
+  <body>
+    <h1 class='title'>EVA Computer Config</h1>
+
+    <div class='item-container'>
+      <div class='item-container-content'>
+        <div class='item'>
+          Configuration page for the EVA Computer Watchface
+        </div>
+      </div>
+    </div>
+
+    <div class='item-container'>
+      <div class='item-container-header'>CUSTOMIZATION</div>
+      <div class='item-container-content'>
+        <label class='item'>
+          Main Color
+          <input id='main_color_picker' type='text' class='item-color item-color-sunny' value='#000000'>
+        </label>
+      </div>
+      <div class='item-container-footer'>
+        Choose the accent color. Orange by default.
+      </div>
+    </div>
+
+    <div class='item-container'>
+      <div class='item-container-header'>OPTIONS</div>
+      <div class='item-container-content'>
+        <label class='item'>
+          Celsius Scale?
+          <input id='celsius_scale_checkbox' type='checkbox' class='item-toggle'>
+        </label>
+      </div>
+      <div class='item-container-content'>
+        <label class='item'>
+          24 Hour Time?
+          <input id='24_hour_checkbox' type='checkbox' class='item-toggle'>
+        </label>
+      </div>
+      <div class='item-container-content'>
+        <label class='item'>
+          Use Watch Cover?
+          <input id='cover_checkbox' type='checkbox' class='item-toggle'>
+        </label>
+      </div>
+    </div>
+
+    <div class='item-container'>
+      <div class='button-container'>
+        <input id='submit_button' type='button' class='item-button' value='SUBMIT'>
+      </div>
+    </div>
+  </body>
+  <script>
+  function getConfigData() {
+    var mainColorPicker = document.getElementById('main_color_picker');
+    var celsiusCheckbox = document.getElementById('celsius_scale_checkbox');
+    var HourCheckbox = document.getElementById('24_hour_checkbox');
+    var coverCheckbox = document.getElementById('cover_checkbox');
+ 
+    var options = {
+      'main_color': mainColorPicker.value,
+      'celsius_scale': celsiusCheckbox.checked,
+      '24_hour': HourCheckbox.checked,
+      'cover': coverCheckbox.checked
+    };
+    // Save for next launch
+    localStorage['main_color'] = options['main_color'];
+    localStorage['celsius_scale'] = options['celsius_scale'];
+    localStorage['24_hour'] = options['24_hour'];
+    localStorage['cover'] = options['cover'];
+    console.log('Got options: ' + JSON.stringify(options));
+    return options;
+  }
+  function getQueryParam(variable, defaultValue) {
+    var query = location.search.substring(1);
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split('=');
+      if (pair[0] === variable) {
+        return decodeURIComponent(pair[1]);
+      }
+    }
+    return defaultValue || false;
+  }
+ 
+  var submitButton = document.getElementById('submit_button');
+  submitButton.addEventListener('click', function() {
+    console.log('Submit');
+    // Set the return URL depending on the runtime environment
+    var return_to = getQueryParam('return_to', 'pebblejs://close#');
+    document.location = return_to + encodeURIComponent(JSON.stringify(getConfigData()));
+  });
+  (function() {
+    var mainColorPicker = document.getElementById('main_color_picker');
+    var celsiusCheckbox = document.getElementById('celsius_scale_checkbox');
+    var HourCheckbox = document.getElementById('24_hour_checkbox');
+    var coverCheckbox = document.getElementById('cover_checkbox');
+    // Load any previously saved configuration, if available
+    if(localStorage['celsius_scale']) {
+      celsiusCheckbox.checked = JSON.parse(localStorage['celsius_scale']);
+      HourCheckbox.checked = JSON.parse(localStorage['24_hour']);
+      coverCheckbox.checked = JSON.parse(localStorage['cover']);
+      mainColorPicker.value = localStorage['main_color'];
+    }
+  })();
+  </script>
+</html>
